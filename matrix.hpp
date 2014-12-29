@@ -126,4 +126,10 @@ private:
     T** elements_;
 };
 
+template <class T>
+matrix<T> makeVectorRow(int length) { return matrix<T>(1, length); }
+
+template <class T>
+matrix<T> makeVectorColumn(int length) { return matrix<T>(length, 1); }
+
 #endif
