@@ -90,6 +90,14 @@ public:
         return result;
     }
 
+    static matrix identity(int size)
+    {
+        matrix result(size, size);
+        for ( int i = 0; i < size; ++i )
+            result(i, i) = 1;
+        return result;
+    }
+
 private:
 
     T** allocateNew(int rows, int columns)
