@@ -72,6 +72,39 @@ public:
     T& operator()(int i, int j) { return elements_[i][j]; }
     const T& operator()(int i, int j) const { return elements_[i][j]; }
 
+    matrix operator+(const matrix& other) const
+    {
+        assert(rows_ == other.rows_ && columns_ == other.columns_);
+
+        matrix result(rows_, columns_);
+
+        for ( int i = 0; i < rows_; ++i )
+        {
+            for ( int j = 0; j < columns_; ++j )
+                result(i, j) = (*this)(i, j) + other(i, j);
+        }
+
+        return result;
+    }
+
+    matrix operator-() const
+    {
+        matrix result(rows_, columns_);
+
+        for ( int i = 0; i < rows_; ++i )
+        {
+            for ( int j = 0; j < columns_; ++j )
+                result(i, j) = -(*this)(i, j);
+        }
+
+        return result;
+    }
+
+    matrix operator-(const matrix& other) const
+    {
+        return (*this) + (-other);
+    }
+
     matrix operator*(const matrix& other) const
     {
         assert(columns_ == other.rows_);
