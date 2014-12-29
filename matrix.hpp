@@ -93,6 +93,19 @@ public:
     int rows() const { return rows_; }
     int columns() const { return columns_; }
 
+    matrix transpose() const
+    {
+        matrix result(columns_, rows_);
+        
+        for ( int i = 0; i < rows_; ++i )
+        {
+            for ( int j = 0; j < columns_; ++j )
+                result(j, i) = (*this)(i, j);
+        }
+
+        return result;
+    }
+
     static matrix identity(int size)
     {
         matrix result(size, size);
