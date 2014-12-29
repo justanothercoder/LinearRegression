@@ -90,6 +90,9 @@ public:
         return result;
     }
 
+    int rows() const { return rows_; }
+    int columns() const { return columns_; }
+
     static matrix identity(int size)
     {
         matrix result(size, size);
