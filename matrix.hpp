@@ -6,7 +6,7 @@
 template <class T>
 class matrix
 {
-    friend ostream& operator<<(ostream& out, const matrix& m)
+    friend std::ostream& operator<<(std::ostream& out, const matrix& m)
     {
         for ( int i = 0; i < m.rows_; ++i )
         {
