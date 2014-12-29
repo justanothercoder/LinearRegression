@@ -1,9 +1,22 @@
 #ifndef _MATRIX_HPP_
 #define _MATRIX_HPP_
 
+#include <iostream>
+
 template <class T>
 class matrix
 {
+    friend ostream& operator<<(ostream& out, const matrix& m)
+    {
+        for ( int i = 0; i < m.rows_; ++i )
+        {
+            for ( int j = 0; j < m.columns_; ++j )
+                out << m(i, j) << ' ';
+            out << '\n';
+        }
+        return out;
+    }
+
 public:
 
     matrix(int rows, int columns) : rows_(rows), columns_(columns), elements_(allocateNew(rows, columns)) { }
