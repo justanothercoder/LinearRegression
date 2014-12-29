@@ -61,15 +61,15 @@ public:
 
     matrix operator*(const matrix& other) const
     {
-        assert(rows_ == other.columns_);
+        assert(columns_ == other.rows_);
 
-        matrix result(columns_, other.rows_);
+        matrix result(rows_, other.columns_);
 
-        for ( int i = 0; i < columns_; ++i )
+        for ( int i = 0; i < rows_; ++i )
         {
-            for ( int j = 0; j < other.rows_; ++j )
+            for ( int j = 0; j < other.columns_; ++j )
             {
-                for ( int k = 0; k < rows_; ++k )
+                for ( int k = 0; k < columns_; ++k )
                     result(i, j) += (*this)(i, k) * other(k, j);
             }
         }
