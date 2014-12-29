@@ -44,3 +44,8 @@ double RegressionComputer::gradientDescent()
 
     return cur;
 }
+    
+void RegressionComputer::addTrainingExample(matrix<double> x, double y)
+{
+    training_set.emplace_back(x, y);
+}

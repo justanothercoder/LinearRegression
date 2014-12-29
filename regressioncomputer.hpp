@@ -16,6 +16,8 @@ public:
 
     double gradientDescent();
 
+    void addTrainingExample(matrix<double> x, double y);
+
 private:
 
     int features;
