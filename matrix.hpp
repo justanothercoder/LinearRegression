@@ -2,6 +2,7 @@
 #define _MATRIX_HPP_
 
 #include <iostream>
+#include <cassert>
 
 template <class T>
 class matrix
@@ -15,6 +16,19 @@ class matrix
             out << '\n';
         }
         return out;
+    }
+
+    friend matrix operator*(T alpha, const matrix& m)
+    {
+        matrix result(m.rows_, m.columns_);
+
+        for ( int i = 0; i < m.rows_; ++i )
+        {
+            for ( int j = 0; j < m.columns_; ++j )
+                result(i, j) *= alpha;
+        }
+
+        return result;
     }
 
 public:
@@ -120,6 +134,19 @@ public:
             }
         }
         
+        return result;
+    }
+
+    friend matrix operator*(const matrix& m, T alpha)
+    {
+        matrix result(m.rows_, m.columns_);
+
+        for ( int i = 0; i < m.rows_; ++i )
+        {
+            for ( int j = 0; j < m.columns_; ++j )
+                result(i, j) *= alpha;
+        }
+
         return result;
     }
 

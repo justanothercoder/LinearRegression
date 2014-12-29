@@ -1,21 +1,21 @@
 #include "regressioncomputer.hpp"
 #include <cmath>
 
-RegressionComputer::RegressionComputer() : alpha(0.001)
+RegressionComputer::RegressionComputer(int features) : features(features), alpha(0.001), theta(features, 1)
 {
 
 }
 
 double RegressionComputer::hypothesis(matrix<double> x) const
 {
-    return theta * x;
+    return (theta * x)(0, 0);
 }
 
 double RegressionComputer::costFunction() const
 {
     double result = 0.0;
 
-    for ( int i = 0; i < training_set.size(); ++i )
+    for ( int i = 0; i < (int)training_set.size(); ++i )
     {
         auto dif = hypothesis(training_set[i].first) - training_set[i].second;
         result += dif * dif;
@@ -30,7 +30,7 @@ double RegressionComputer::gradientDescent()
 {
     const double eps = 0.000001;
 
-    matrix<double> gradient(theta.columns());
+    matrix<double> gradient(features, 1);
 
     double prev, cur;
     cur = costFunction();
@@ -38,7 +38,7 @@ double RegressionComputer::gradientDescent()
     do
     {
         prev = cur;
-        theta -= alpha / training_set.size() * gradient;
+        theta = theta - alpha / training_set.size() * gradient;
         cur = costFunction();
     } while ( fabs(cur - prev) >= eps );
 

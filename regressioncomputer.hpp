@@ -9,7 +9,7 @@ class RegressionComputer
 {
 public:
 
-    RegressionComputer();
+    RegressionComputer(int features);
 
     double hypothesis(matrix<double> x) const;
     double costFunction() const;
@@ -17,6 +17,8 @@ public:
     double gradientDescent();
 
 private:
+
+    int features;
 
     double alpha;
     matrix<double> theta;
