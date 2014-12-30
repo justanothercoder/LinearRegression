@@ -16,12 +16,16 @@ public:
 
     double hypothesis(std::valarray<double> x) const;
     double costFunction() const;
-
+    
     double gradientDescent();
 
     void addTrainingExample(std::valarray<double> x, double y);
 
     std::valarray<double> theta() const;
+
+private:
+
+    void applyFeatureScaling();
 
 private:
 

@@ -4,8 +4,16 @@
 
 int main()
 {
-    RegressionComputer regression_computer(4);
+//    RegressionComputer regression_computer(2);
 
+//    regression_computer.addTrainingExample({1, 1}, 1);
+//    regression_computer.addTrainingExample({1, 2}, 2);
+//    regression_computer.addTrainingExample({1, 3}, 3);
+//    regression_computer.addTrainingExample({1, 4}, 4);
+//    regression_computer.addTrainingExample({1, 5}, 5);
+
+    RegressionComputer regression_computer(4);
+    
     std::ifstream in("dataset.txt");
 
     double a0, a1, a2, a3, b;

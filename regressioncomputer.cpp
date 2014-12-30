@@ -9,7 +9,7 @@ RegressionComputer::RegressionComputer(int features) : features_(features), alph
 
 double RegressionComputer::hypothesis(std::valarray<double> x) const
 {
-    return (theta_ * x)[0];
+    return (theta_ * x).sum();
 }
 
 double RegressionComputer::costFunction() const
@@ -29,6 +29,8 @@ double RegressionComputer::costFunction() const
 
 double RegressionComputer::gradientDescent()
 {
+//    applyFeatureScaling();
+
     const double eps = 0.00000001;
 
     double prev, cur;
@@ -68,6 +70,33 @@ void RegressionComputer::addTrainingExample(std::valarray<double> x, double y)
 std::valarray<double> RegressionComputer::theta() const
 {
     return theta_;
+}
+
+void RegressionComputer::applyFeatureScaling()
+{
+    std::valarray<double> mean(features_);
+
+    for ( int j = 0; j < (int)training_set.size(); ++j )
+        mean += training_set[j].first;
+
+    mean /= training_set.size();
+
+    std::valarray<double> maximum(features_);
+    std::valarray<double> minimum(features_);    
+        
+    for ( int i = 0; i < features_; ++i )
+    {
+        maximum[i] = training_set[0].first[i];
+        minimum[i] = training_set[0].first[i];
+        for ( int j = 1; j < (int)training_set.size(); ++j )
+        {
+            maximum[i] = std::max(maximum[i], training_set[j].first[i]);
+            minimum[i] = std::min(minimum[i], training_set[j].first[i]);
+        }
+    }
+
+    for ( int i = 0; i < (int)training_set.size(); ++i )
+        training_set[i].first = (training_set[i].first - mean) / (maximum - minimum);
 }
 
 std::ostream& operator<<(std::ostream& out, std::valarray<double> arr)
