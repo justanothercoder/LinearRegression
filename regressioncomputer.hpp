@@ -18,12 +18,14 @@ public:
 
     void addTrainingExample(matrix<double> x, double y);
 
+    matrix<double> theta() const;
+
 private:
 
-    int features;
+    int features_;
 
-    double alpha;
-    matrix<double> theta;
+    double alpha_;
+    matrix<double> theta_;
     std::vector< std::pair< matrix<double>, double > > training_set;
 };
 

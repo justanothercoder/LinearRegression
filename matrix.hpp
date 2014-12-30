@@ -100,7 +100,7 @@ public:
 
         return result;
     }
-
+    
     matrix operator-() const
     {
         matrix result(rows_, columns_);
@@ -148,6 +148,32 @@ public:
         }
 
         return result;
+    }
+
+    matrix& operator+=(const matrix& other)
+    {
+        assert(rows_ == other.rows_ && columns_ == other.columns_);
+
+        for ( int i = 0; i < rows_; ++i )
+        {
+            for ( int j = 0; j < columns_; ++j )
+                (*this)(i, j) += other(i, j);
+        }
+
+        return *this;
+    }
+    
+    matrix& operator-=(const matrix& other)
+    {
+        assert(rows_ == other.rows_ && columns_ == other.columns_);
+
+        for ( int i = 0; i < rows_; ++i )
+        {
+            for ( int j = 0; j < columns_; ++j )
+                (*this)(i, j) -= other(i, j);
+        }
+
+        return *this;
     }
 
     int rows() const { return rows_; }

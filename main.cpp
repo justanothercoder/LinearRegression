@@ -18,9 +18,10 @@ int main()
     vec(1, 0) = 3;
     regression_computer.addTrainingExample(vec, 3);
 
-    std::cout << "Cost function(theta) = " << regression_computer.gradientDescent() << '\n';
+    std::cout << "Cost function(θ) = " << regression_computer.gradientDescent() << '\n';
+    std::cout << "θ = " << regression_computer.theta() << '\n';
 
-    for ( int i = 1; i <= 5; ++i )
+    for ( int i = 1; i <= 10; ++i )
     {
         vec(1, 0) = i;
         std::cout << regression_computer.hypothesis(vec) << '\n';
