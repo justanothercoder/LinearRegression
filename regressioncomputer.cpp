@@ -29,13 +29,13 @@ double RegressionComputer::costFunction() const
 
 double RegressionComputer::gradientDescent()
 {
-    const double eps = 0.00000000001;
+    const double eps = 0.000000000001;
 
     double prev, cur;
     cur = costFunction();
 
     int iterations = 0;
-    const int max_iterations = 10000000;
+    const int max_iterations = 100000000;
 
     matrix<double> gradient = makeVectorRow<double>(features_);
     
@@ -53,7 +53,7 @@ double RegressionComputer::gradientDescent()
                 gradient(0, j) += dif * (training_set[i].first(j, 0));
         }
 
-        theta_ -= - alpha_ / training_set.size() * gradient;
+        theta_ -= alpha_ / training_set.size() * gradient;
         cur = costFunction();
     } while ( fabs(cur - prev) >= eps && iterations++ < max_iterations );
 
