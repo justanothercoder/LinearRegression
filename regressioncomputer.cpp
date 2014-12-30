@@ -48,12 +48,7 @@ double RegressionComputer::gradientDescent()
         gradient = 0.0;
 
         for ( int i = 0; i < (int)training_set.size(); ++i )
-        {
-            double dif = hypothesis(training_set[i].first) - training_set[i].second;
-            
-            for ( int j = 0; j < features_; ++j )            
-                gradient[j] += dif * (training_set[i].first[j]);
-        }
+            gradient += (hypothesis(training_set[i].first) - training_set[i].second) * training_set[i].first;        
 
         theta_ -= alpha_ / training_set.size() * gradient;
         cur = costFunction();
