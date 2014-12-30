@@ -2,7 +2,7 @@
 #include <cmath>
 #include <iostream>
 
-RegressionComputer::RegressionComputer(int features) : features_(features), alpha_(0.000001), theta_(features)
+RegressionComputer::RegressionComputer(int features) : features_(features), alpha_(0.01), theta_(features)
 {
 
 }
@@ -29,13 +29,13 @@ double RegressionComputer::costFunction() const
 
 double RegressionComputer::gradientDescent()
 {
-    const double eps = 0.000000000001;
+    const double eps = 0.00000001;
 
     double prev, cur;
     cur = costFunction();
 
     int iterations = 0;
-    const int max_iterations = 100000000;
+    const int max_iterations = 2000000000;
 
     std::valarray<double> gradient(features_);
 
