@@ -1,31 +1,21 @@
 #include <iostream>
-#include "matrix.hpp"
+#include <fstream>
 #include "regressioncomputer.hpp"
 
 int main()
 {
     RegressionComputer regression_computer(2);
 
-    auto vec = makeVectorColumn<double>(2);
-    vec(0, 0) = 1;
+    std::ifstream in("dataset.txt");
 
-    vec(1, 0) = 1;
-    regression_computer.addTrainingExample(vec, 1);
+    double x, y;
+    while ( in >> x >> y )
+        regression_computer.addTrainingExample({1, x}, y);
 
-    vec(1, 0) = 2;
-    regression_computer.addTrainingExample(vec, 2);
-
-    vec(1, 0) = 3;
-    regression_computer.addTrainingExample(vec, 3);
+    std::cout << "Starting gradient descent\n";
 
     std::cout << "Cost function(θ) = " << regression_computer.gradientDescent() << '\n';
     std::cout << "θ = " << regression_computer.theta() << '\n';
-
-    for ( int i = 1; i <= 10; ++i )
-    {
-        vec(1, 0) = i;
-        std::cout << regression_computer.hypothesis(vec) << '\n';
-    }
 
     return 0;
 }

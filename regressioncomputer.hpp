@@ -2,8 +2,11 @@
 #define _REGRESSIONCOMPUTER_HPP_
 
 #include <vector>
+#include <valarray>
 #include <utility>
-#include "matrix.hpp"
+#include <iostream>
+
+std::ostream& operator<<(std::ostream& out, std::valarray<double> arr);
 
 class RegressionComputer
 {
@@ -11,22 +14,22 @@ public:
 
     RegressionComputer(int features);
 
-    double hypothesis(matrix<double> x) const;
+    double hypothesis(std::valarray<double> x) const;
     double costFunction() const;
 
     double gradientDescent();
 
-    void addTrainingExample(matrix<double> x, double y);
+    void addTrainingExample(std::valarray<double> x, double y);
 
-    matrix<double> theta() const;
+    std::valarray<double> theta() const;
 
 private:
 
     int features_;
 
     double alpha_;
-    matrix<double> theta_;
-    std::vector< std::pair< matrix<double>, double > > training_set;
+    std::valarray<double> theta_;
+    std::vector< std::pair< std::valarray<double>, double > > training_set;
 };
 
 #endif

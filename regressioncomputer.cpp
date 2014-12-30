@@ -2,14 +2,14 @@
 #include <cmath>
 #include <iostream>
 
-RegressionComputer::RegressionComputer(int features) : features_(features), alpha_(0.000001), theta_(makeVectorRow<double>(features))
+RegressionComputer::RegressionComputer(int features) : features_(features), alpha_(0.000001), theta_(features)
 {
 
 }
 
-double RegressionComputer::hypothesis(matrix<double> x) const
+double RegressionComputer::hypothesis(std::valarray<double> x) const
 {
-    return (theta_ * x)(0, 0);
+    return (theta_ * x)[0];
 }
 
 double RegressionComputer::costFunction() const
@@ -37,20 +37,20 @@ double RegressionComputer::gradientDescent()
     int iterations = 0;
     const int max_iterations = 100000000;
 
-    matrix<double> gradient = makeVectorRow<double>(features_);
-    
+    std::valarray<double> gradient(features_);
+
     do
     {
         prev = cur;
         
-        for ( int i = 0; i < features_; ++i )
-            gradient(0, i) = 0;
+        gradient = 0.0;
 
         for ( int i = 0; i < (int)training_set.size(); ++i )
         {
             double dif = hypothesis(training_set[i].first) - training_set[i].second;
+            
             for ( int j = 0; j < features_; ++j )            
-                gradient(0, j) += dif * (training_set[i].first(j, 0));
+                gradient[j] += dif * (training_set[i].first[j]);
         }
 
         theta_ -= alpha_ / training_set.size() * gradient;
@@ -60,12 +60,20 @@ double RegressionComputer::gradientDescent()
     return cur;
 }
     
-void RegressionComputer::addTrainingExample(matrix<double> x, double y)
+void RegressionComputer::addTrainingExample(std::valarray<double> x, double y)
 {
     training_set.emplace_back(x, y);
 }
     
-matrix<double> RegressionComputer::theta() const
+std::valarray<double> RegressionComputer::theta() const
 {
     return theta_;
+}
+
+std::ostream& operator<<(std::ostream& out, std::valarray<double> arr)
+{
+    for ( auto x : arr )
+        out << x << ' ';
+    out << '\n';
+    return out;
 }
