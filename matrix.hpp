@@ -20,7 +20,7 @@ class matrix
 
     friend matrix operator*(T alpha, const matrix& m)
     {
-        matrix result(m.rows_, m.columns_);
+        matrix result = m;
 
         for ( int i = 0; i < m.rows_; ++i )
         {
@@ -137,13 +137,13 @@ public:
         return result;
     }
 
-    friend matrix operator*(const matrix& m, T alpha)
+    matrix operator*(T alpha)
     {
-        matrix result(m.rows_, m.columns_);
+        matrix result = *this;
 
-        for ( int i = 0; i < m.rows_; ++i )
+        for ( int i = 0; i < rows_; ++i )
         {
-            for ( int j = 0; j < m.columns_; ++j )
+            for ( int j = 0; j < columns_; ++j )
                 result(i, j) *= alpha;
         }
 
@@ -181,7 +181,11 @@ private:
         T** new_matrix = new T*[rows];
         
         for ( int i = 0; i < rows; ++i ) 
+        {
             new_matrix[i] = new T[columns];
+            for ( int j = 0; j < columns; ++j )
+                new_matrix[i][j] = T();
+        }
 
         return new_matrix;        
     }
