@@ -2,7 +2,7 @@
 #include <cmath>
 #include <iostream>
 
-RegressionComputer::RegressionComputer(int features) : features_(features), alpha_(0.01), theta_(features)
+RegressionComputer::RegressionComputer(int features) : features_(features), alpha_(0.0000001), theta_(features)
 {
 
 }
@@ -31,13 +31,13 @@ double RegressionComputer::gradientDescent()
 {
 //    applyFeatureScaling();
 
-    const double eps = 0.00000001;
+    const double eps = 0.000000001;
 
     double prev, cur;
     cur = costFunction();
 
     int iterations = 0;
-    const int max_iterations = 2000000000;
+    const int max_iterations = 200000000;
 
     std::valarray<double> gradient(features_);
 
@@ -49,9 +49,23 @@ double RegressionComputer::gradientDescent()
 
         for ( int i = 0; i < (int)training_set.size(); ++i )
             gradient += (hypothesis(training_set[i].first) - training_set[i].second) * training_set[i].first;        
-
+/*
+        std::cout << "Gradient = " << gradient << '\n';
+        std::cout << "θ = " << theta_ << '\n';
+*/
         theta_ -= alpha_ / training_set.size() * gradient;
+/*
+        std::cout << "new θ = " << theta_ << '\n';
+        std::cout << "J(θ) = " << cur << '\n';
+*/
         cur = costFunction();
+/*
+        std::cout << "new J(θ) = " << cur << '\n';
+
+        std::cout << "|δ| = " << fabs(cur - prev) << '\n';
+        std::cout << " ε  = " << eps << '\n';
+        std::cout << "|δ| > ε  = " << (fabs(cur - prev) >= eps) << '\n';
+*/
     } while ( fabs(cur - prev) >= eps && iterations++ < max_iterations );
 
     return cur;
