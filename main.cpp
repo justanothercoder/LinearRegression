@@ -28,6 +28,5 @@ int main()
     std::ofstream out("theta.out");
     out << "θ = " << regression_computer.theta() << '\n';
 
-
     return 0;
 }

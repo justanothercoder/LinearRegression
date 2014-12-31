@@ -1,5 +1,5 @@
 CC=clang++
-CFLAGS=-std=c++11 -g -c -Wall -Wextra -pedantic -O0
+CFLAGS=-std=c++11 -g -c -Wall -Wextra -pedantic -O3
 LDFLAGS=
 SOURCES=main.cpp regressioncomputer.cpp
 OBJECTS=$(SOURCES:.cpp=.o)

@@ -14,6 +14,8 @@ public:
 
     RegressionComputer(int features);
 
+    double prediction(std::valarray<double> x) const;
+
     double hypothesis(std::valarray<double> x) const;
     double costFunction() const;
     
@@ -26,6 +28,9 @@ public:
 private:
 
     void applyFeatureScaling();
+
+    std::valarray<double> mean;
+    std::valarray<double> deviation;
 
 private:
 

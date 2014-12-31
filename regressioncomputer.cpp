@@ -2,9 +2,15 @@
 #include <cmath>
 #include <iostream>
 
-RegressionComputer::RegressionComputer(int features) : features_(features), alpha_(0.0000001), theta_(features)
+RegressionComputer::RegressionComputer(int features) : features_(features), alpha_(0.0001), theta_(features)
 {
-
+    mean = std::valarray<double>(features);
+    deviation = std::valarray<double>(1, features);
+}
+    
+double RegressionComputer::prediction(std::valarray<double> x) const
+{
+    return (theta_ * ((x - mean) / deviation)).sum();
 }
 
 double RegressionComputer::hypothesis(std::valarray<double> x) const
@@ -29,15 +35,15 @@ double RegressionComputer::costFunction() const
 
 double RegressionComputer::gradientDescent()
 {
-//    applyFeatureScaling();
+    applyFeatureScaling();
 
-    const double eps = 0.000000001;
+    const double eps = 0.00000000001;
 
     double prev, cur;
     cur = costFunction();
 
-    int iterations = 0;
-    const int max_iterations = 200000000;
+    std::size_t iterations = 0;
+    const std::size_t max_iterations = 200000000;
 
     std::valarray<double> gradient(features_);
 
@@ -49,24 +55,13 @@ double RegressionComputer::gradientDescent()
 
         for ( int i = 0; i < (int)training_set.size(); ++i )
             gradient += (hypothesis(training_set[i].first) - training_set[i].second) * training_set[i].first;        
-/*
-        std::cout << "Gradient = " << gradient << '\n';
-        std::cout << "θ = " << theta_ << '\n';
-*/
-        theta_ -= alpha_ / training_set.size() * gradient;
-/*
-        std::cout << "new θ = " << theta_ << '\n';
-        std::cout << "J(θ) = " << cur << '\n';
-*/
-        cur = costFunction();
-/*
-        std::cout << "new J(θ) = " << cur << '\n';
 
-        std::cout << "|δ| = " << fabs(cur - prev) << '\n';
-        std::cout << " ε  = " << eps << '\n';
-        std::cout << "|δ| > ε  = " << (fabs(cur - prev) >= eps) << '\n';
-*/
+        theta_ -= alpha_ / training_set.size() * gradient;
+        cur = costFunction();
+
     } while ( fabs(cur - prev) >= eps && iterations++ < max_iterations );
+
+    std::cout << "Made " << iterations << " iterations\n";
 
     return cur;
 }
@@ -83,7 +78,7 @@ std::valarray<double> RegressionComputer::theta() const
 
 void RegressionComputer::applyFeatureScaling()
 {
-    std::valarray<double> mean(features_);
+    mean = std::valarray<double>(features_);
 
     for ( int j = 0; j < (int)training_set.size(); ++j )
         mean += training_set[j].first;
@@ -92,7 +87,7 @@ void RegressionComputer::applyFeatureScaling()
 
     std::valarray<double> maximum(features_);
     std::valarray<double> minimum(features_);    
-        
+       
     for ( int i = 0; i < features_; ++i )
     {
         maximum[i] = training_set[0].first[i];
@@ -104,8 +99,14 @@ void RegressionComputer::applyFeatureScaling()
         }
     }
 
+    deviation = maximum - minimum;
+    deviation[0] = 1;
+
     for ( int i = 0; i < (int)training_set.size(); ++i )
-        training_set[i].first = (training_set[i].first - mean) / (maximum - minimum);
+    {
+        training_set[i].first = (training_set[i].first - mean) / deviation;
+        training_set[i].first[0] = 1;
+    }
 }
 
 std::ostream& operator<<(std::ostream& out, std::valarray<double> arr)
